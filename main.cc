@@ -1,8 +1,8 @@
 #include <iostream>
 
-using    namespace std;
+using namespace std;
 
-      int main(int, char** argv) {
-           cout << 1 << std::endl;
+int main(int /*argc*/, char** /*argv*/) {
+  cout << 1 << std::endl;
   return 0;
 }
