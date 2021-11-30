@@ -20,7 +20,10 @@ jobs:
       #if: steps.review.outputs.total_comments > 0
       #run: exit 1
       run: |
+        number=${{steps.review.outputs.total_comments}}
         echo "num_comments = ${{steps.review.outputs.total_comments}}"
-        if [ steps.review.outputs.total_comments > 0 ]; then
+        echo "number = ${number}"
+        if [ ${number} > 0 ]; then
+          echo "test"
           exit 1
         fi  
