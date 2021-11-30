@@ -23,7 +23,7 @@ jobs:
         number=${{steps.review.outputs.total_comments}}
         echo "num_comments = ${{steps.review.outputs.total_comments}}"
         echo "number = ${number}"
-        if [ ${number} > 0 ]; then
+        if [ ${number} == 0 ]; then
           echo "test"
           exit 1
         fi  
