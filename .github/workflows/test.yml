@@ -31,6 +31,7 @@ jobs:
       run: |
         chmod +x generate.sh
         ./generate.sh .
+        cd build
         cat compile_commands.json
         
     - name: Check C++ changes against style guide
