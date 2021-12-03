@@ -30,9 +30,7 @@ jobs:
     - name: Generate compile_commands.json
       run: |
         chmod +x generate.sh
-        ./generate.sh hello
-        cd build
-        cat compile_commands.json
+        ./generate.sh 
         
     - name: Check C++ changes against style guide
       uses: ZedThree/clang-tidy-review@v0.7.0
