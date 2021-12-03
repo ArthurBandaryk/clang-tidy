@@ -26,7 +26,12 @@ jobs:
 #         if [ ${number} == 0 ]; then
 #           echo "test"
 #           exit 1
-#         fi  
+#         fi
+    - name: Generate compile_commands.json
+      run: |
+        chmod +x generate.sh
+        ./generate.sh
+        
     - name: Check C++ changes against style guide
       uses: ZedThree/clang-tidy-review@v0.7.0
       id: id_review
