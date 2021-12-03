@@ -30,7 +30,7 @@ jobs:
     - name: Generate compile_commands.json
       run: |
         chmod +x generate.sh
-        ./generate.sh
+        ./generate.sh .
         cat compile_commands.json
         
     - name: Check C++ changes against style guide
