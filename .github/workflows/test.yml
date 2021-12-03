@@ -31,6 +31,7 @@ jobs:
       run: |
         chmod +x generate.sh
         ./generate.sh
+        cat compile_commands.json
         
     - name: Check C++ changes against style guide
       uses: ZedThree/clang-tidy-review@v0.7.0
