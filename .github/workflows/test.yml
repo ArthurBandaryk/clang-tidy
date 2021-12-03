@@ -30,7 +30,7 @@ jobs:
     - name: Generate compile_commands.json
       run: |
         chmod +x generate.sh
-        ./generate.sh build
+        ./generate.sh hello
         cd build
         cat compile_commands.json
         
