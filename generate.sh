@@ -1,13 +1,25 @@
 #!/bin/bash
-
-INSTALL_DIR="/usr/local/bin"
-VERSION="0.5.2"
-
-# Download and symlink.
-(
-  cd "${INSTALL_DIR}" \
-  && curl -L "https://github.com/grailbio/bazel-compilation-database/archive/${VERSION}.tar.gz" | tar -xz \
-  && ln -f -s "${INSTALL_DIR}/bazel-compilation-database-${VERSION}/generate.py" bazel-compdb
-)
-
-bazel-compdb # This will generate compile_commands.json in your workspace root.
+# Generates a compile_commands.json file at $(bazel info execution_root) for
+# the given file path.
+set -e
+FILENAME=${1:?Missing required source path}
+bazel build \
+  --experimental_action_listener=//kythe/cxx/tools/generate_compile_commands:extract_json \
+  --noshow_progress \
+  --noshow_loading_progress \
+  --output_groups=compilation_outputs \
+  --compile_one_dependency \
+"$FILENAME" > /dev/null
+BAZEL_ROOT="$(bazel info execution_root)"
+pushd "$BAZEL_ROOT" > /dev/null
+find . -name '*.compile_command.json' -print0 | while read -r -d '' fname; do
+  sed -e "s|@BAZEL_ROOT@|$BAZEL_ROOT|g" < "$fname" >> compile_commands.json
+echo "" >> compile_commands.json
+done
+# Decompose, insert and keep the most recent entry for a given file, then
+# recombine.
+sed 's/\(^[[]\)\|\([],]$\)//;/^$/d;' < compile_commands.json \
+| tac | sort -u -t, -k1,1 \
+| sed '1s/^./[\0/;s/}$/},/;$s/,$/]/' > compile_commands.json.tmp
+mv compile_commands.json{.tmp,}
+popd > /dev/null
