@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # Generates a compile_commands.json file at $(bazel info execution_root) for
 # the given file path.
 set -e
