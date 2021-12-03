@@ -12,8 +12,7 @@ cc_binary(
 compilation_database(
     name = "example_compdb",
     targets = [
-        "//a_cc_binary_label",
-        "//a_cc_library_label",
+        "//hello",
     ],
     # OUTPUT_BASE is a dynamic value that will vary for each user workspace.
     # If you would like your build outputs to be the same across users, then
