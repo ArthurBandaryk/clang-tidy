@@ -1,13 +1,13 @@
-#!/bin/bash
+# Command to generate the compilation database file.
+bazel build :example_compdb
 
-INSTALL_DIR="/usr/local/bin"
-VERSION="0.5.2"
+# Location of the compilation database file.
+outfile="$(bazel info bazel-bin)/compile_commands.json"
 
-# Download and symlink.
-(
-  cd "${INSTALL_DIR}" \
-  && curl -L "https://github.com/grailbio/bazel-compilation-database/archive/${VERSION}.tar.gz" | tar -xz \
-  && ln -f -s "${INSTALL_DIR}/bazel-compilation-database-${VERSION}/generate.py" bazel-compdb
-)
+# [Optional] Command to replace the marker for output_base in the file if you
+# did not use the dynamic value in the example above.
+output_base=$(bazel info output_base)
+sed -i.bak "s@__OUTPUT_BASE__@${output_base}@" "${outfile}"
 
-bazel-compdb # This will generate compile_commands.json in your workspace root.
+# The compilation database is now ready to use at this location.
+echo "Compilation Database: ${outfile}"

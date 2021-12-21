@@ -2,6 +2,8 @@
 
 using namespace std;
 
-	int main(int , char** argv){
-	return 0;
+int main(int argc, char** argv) {
+  cout << 1 << std::endl;
+  int a;
+  return 0;
 }
